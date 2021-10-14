@@ -2,21 +2,17 @@ const int trigPin1 = 11; // the number of the trigger output pin ( sensor 1 )
 const int echoPin1 = 10; // the number of the echo input pin ( sensor 1 )     
 const int trigPin2 = 6;  // the number of the trigger output pin ( sensor 2 ) 
 const int echoPin2 = 5;  // the number of the echo input pin ( sensor 2 ) 
-
-////////////////////////////////// variables used for distance calculation 
+// variables used for distance calculation 
 long duration;                               
 int distance1, distance2; 
 float r;
 unsigned long temp=0;
 int temp1=0;
 int l=0;
-////////////////////////////////
-
 void find_distance (void);
-
 // this function returns the value in cm.
 /*we should not trigger the both ultrasonic sensor at the same time. 
-it might cause error result due to the intraction of the both soundswaves.*/ 
+it might cause error result due to the interaction of the both sound waves.*/ 
 void find_distance (void)                   
 { 
   digitalWrite(trigPin1, LOW);
@@ -25,9 +21,11 @@ void find_distance (void)
   delayMicroseconds(10);
   digitalWrite(trigPin1, LOW);
 
+ 
+
   duration = pulseIn(echoPin1, HIGH, 5000);// here this pulsein function wont wait more then 5000us for the ultrasonic sound to came back. (due to this it wont measure more than 60cm)
                                            // it helps this project to use the gesture control in the defined space. 
-                                           // so that, it will return zero if distance greater then 60m. ( it helps usually if we remove our hands infront of the sensors ).
+                                           // so that, it will return zero if distance greater then 60m. ( it helps usually if we remove our hands in front of the sensors ).
  
   r = 3.4 * duration / 2;                  // calculation to get the measurement in cm using the time returned by the pulsein function.     
   distance1 = r / 100.00;
@@ -38,11 +36,15 @@ void find_distance (void)
   delayMicroseconds(10);
   digitalWrite(trigPin2, LOW);
 
+ 
+
   duration = pulseIn(echoPin2, HIGH, 5000);
   r = 3.4 * duration / 2;     
   distance2 = r / 100.00;
   delay(100);
 }
+
+ 
 
 void setup() 
 {
@@ -54,6 +56,8 @@ void setup()
   delay (1000);
     
 }
+
+ 
 
 void loop()
 {
@@ -86,6 +90,8 @@ void loop()
       Serial.println("next");                // send "next" serially.
     }
   }
+
+ 
 
   else if(distance1<=35 && distance1>=15)   // once if we placed our hands in front of the left sensor in the range between 15 to 35cm this condition becomes true.
   { 
